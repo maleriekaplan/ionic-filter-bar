@@ -16,21 +16,21 @@
             '<div class="filter-bar-wrapper filter-bar-{{::config.theme}} filter-bar-transition-{{::config.transition}}">' +
               '<div class="bar bar-header bar-{{::config.theme}} item-input-inset">' +
                 '<button class="filter-bar-cancel button button-icon icon {{::config.back}}"></button>' +
-                '<label class="item-input-wrapper">' +
+                '<form ng-submit="update" class="item-input-wrapper">' +
                   '<input type="search" class="filter-bar-search" ng-model="filterText" placeholder="{{::config.placeholder}}" />' +
                   '<button style="display:none;" class="filter-bar-clear button button-icon icon {{::config.clear}}"></button>' +
-                '</label>' +
+                '</form>' +
               '</div>' +
             '</div>';
         } else {
           filterBarTemplate =
             '<div class="filter-bar-wrapper filter-bar-{{::config.theme}} filter-bar-transition-{{::config.transition}}">' +
               '<div class="bar bar-header bar-{{::config.theme}} item-input-inset">' +
-                '<label class="item-input-wrapper">' +
+                '<form ng-submit="update" class="item-input-wrapper">' +
                   '<i class="icon {{::config.search}} placeholder-icon"></i>' +
                   '<input type="search" class="filter-bar-search" ng-model="filterText" placeholder="{{::config.placeholder}}"/>' +
                   '<button style="display:none;" class="filter-bar-clear button button-icon icon {{::config.clear}}"></button>' +
-                '</label>' +
+                '</form>' +
                 '<button class="filter-bar-cancel button button-clear" ng-bind-html="::cancelText"></button>' +
               '</div>' +
             '</div>';
@@ -43,6 +43,7 @@
             var clearEl = angular.element($element[0].querySelector('.filter-bar-clear'));
             var cancelEl = angular.element($element[0].querySelector('.filter-bar-cancel'));
             var inputEl = $element.find('input');
+            var formEl = $element.find('form');
             var filterTextTimeout;
             var swipeGesture;
             var backdrop;
@@ -56,8 +57,14 @@
             var cancelFilterBar = function () {
               $scope.cancelFilterBar();
             };
+            var updateSearch = function () {
+              if ($scope.updateWithReturnKey) {
+                $scope.updateSearch($scope.filterText);
+              }
+            };
 
             cancelEl.bind('click', cancelFilterBar);
+            formEl.bind('submit', updateSearch);
 
             // If backdrop is enabled, create and append it to filter, then add click/swipe listeners to cancel filter
             if ($scope.config.backdrop) {
@@ -136,24 +143,29 @@
               if (backdrop) {
                 $ionicGesture.off(swipeGesture, 'swipe', backdropClick);
               }
-              filterWatch();
+              if (!$scope.updateWithReturnKey) {
+                filterWatch();
+              }
             });
 
             // Watch for changes on filterText and call filterItems when filterText has changed.
             // If debounce is enabled, filter items by the specified or default delay.
             // Prefer timeout debounce over ng-model-options so if filterText is cleared, initial items show up right away with no delay
-            filterWatch = $scope.$watch('filterText', function (newFilterText, oldFilterText) {
-              var delay;
+            if (!$scope.updateWithReturnKey) {
+              filterWatch = $scope.$watch('filterText', function (newFilterText, oldFilterText) {
+                var delay;
 
-              if (filterTextTimeout) {
-                $timeout.cancel(filterTextTimeout);
-              }
+                if (filterTextTimeout) {
+                  $timeout.cancel(filterTextTimeout);
+                }
 
-              if (newFilterText !== oldFilterText) {
-                delay = (newFilterText.length && $scope.debounce) ? $scope.delay : 0;
-                filterTextTimeout = $timeout(filterItems, delay, false);
-              }
-            });
+                if (newFilterText !== oldFilterText) {
+                  console.log('searching');
+                  delay = (newFilterText.length && $scope.debounce) ? $scope.delay : 0;
+                  filterTextTimeout = $timeout(filterItems, delay, false);
+                }
+              });
+            }
           },
           template: filterBarTemplate
         };

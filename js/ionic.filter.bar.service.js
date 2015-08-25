@@ -92,7 +92,8 @@
             delay: 300,
             cancelText: 'Cancel',
             cancelOnStateChange: true,
-            container: $body
+            container: $body,
+            updateWithReturnKey: false
           }, opts);
 
           //if no custom theme was configured, get theme of containers bar-header
@@ -226,7 +227,6 @@
               //Wait before cleaning up so element isn't removed before filter bar animates out
               $timeout(function () {
                 scope.scrollItemsTop();
-                scope.update(scope.items);
 
                 scope.$destroy();
                 element.remove();
@@ -283,6 +283,9 @@
             scope.removeFilterBar(scope.cancel);
           };
 
+          scope.updateSearch = function(filterText) {
+            scope.update(filterText);
+          };
           scope.showFilterBar(scope.done);
 
           // Expose the scope on $ionFilterBar's return value for the sake of testing it.

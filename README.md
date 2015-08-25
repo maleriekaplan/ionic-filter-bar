@@ -247,6 +247,10 @@ A service you can inject in your controller to show the filter bar
     - `.modal` (Appends to a modal)
     - `.menu-content` (Appends to the content section of a side menu.  Useful when the expose-aside-when attr is set.)
 
+  - `{boolean=}` `updateWithReturnKey`
+
+    Disables delay filtering and enables update by return key
+
 ## Screenshots
 
 
