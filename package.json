@@ -1,6 +1,6 @@
 {
   "name": "ionic-filter-bar",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "A filter directive UI for Ionic apps that animates over the header bar",
   "author": "Devin Jett <djett41@gmail.com> (https://github.com/djett41)",
   "main": "./dist/ionic-filter-bar.js",
@@ -10,7 +10,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/djett41/ionic-filter-bar.git"
+    "url": "https://github.com/maleriekaplan/ionic-filter-bar.git"
   },
   "devDependencies": {
     "gulp": "^3.5.6",
