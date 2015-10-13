@@ -61,6 +61,7 @@ angular.module('jett.ionic.filter.bar', ['ionic']);
             var updateSearch = function () {
               if ($scope.updateWithReturnKey) {
                 $scope.updateSearch($scope.filterText);
+                $scope.hideBackdrop();
               }
             };
 
@@ -123,7 +124,9 @@ angular.module('jett.ionic.filter.bar', ['ionic']);
                 cancelFilterBar();
               } else if ($scope.filterText && $scope.filterText.length) {
                 showClearButton();
-                $scope.hideBackdrop();
+                if (!$scope.updateWithReturnKey) {
+                  $scope.hideBackdrop();
+                }
               } else {
                 hideClearButton();
                 $scope.showBackdrop();
