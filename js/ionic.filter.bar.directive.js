@@ -67,6 +67,10 @@
             cancelEl.bind('click', cancelFilterBar);
             formEl.bind('submit', updateSearch);
 
+            $scope.$on('$stateChangeStart', function() {
+              $scope.cancelFilterBar();
+            });
+			
             // If backdrop is enabled, create and append it to filter, then add click/swipe listeners to cancel filter
             if ($scope.config.backdrop) {
               backdrop = angular.element('<div class="filter-bar-backdrop"></div>');
