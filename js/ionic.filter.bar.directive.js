@@ -50,7 +50,9 @@
             var backdropClick;
             var filterWatch;
 
-            $scope.filterText = '';
+			if (!$scope.filterText) {
+				$scope.filterText = '';
+			}
 
             // Action when filter bar is cancelled via backdrop click/swipe or cancel/back buton click.
             // Invokes cancel function defined in filterBar service

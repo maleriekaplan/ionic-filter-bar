@@ -51,8 +51,9 @@ angular.module('jett.ionic.filter.bar', ['ionic']);
             var backdropClick;
             var filterWatch;
 
-            $scope.filterText = '';
-
+            if (!$scope.filterText) {
+              $scope.filterText = '';
+            }
             // Action when filter bar is cancelled via backdrop click/swipe or cancel/back buton click.
             // Invokes cancel function defined in filterBar service
             var cancelFilterBar = function () {
@@ -382,7 +383,7 @@ angular.module('jett.ionic.filter.bar', ['ionic']);
           opts = opts || {};
 
           var scope = $rootScope.$new(true);
-          var backdropShown = false;
+          var backdropShown = true;
           var isKeyboardShown = false;
 
           //if container option is set, determine the container element by querying for the container class
@@ -407,7 +408,8 @@ angular.module('jett.ionic.filter.bar', ['ionic']);
             cancelText: 'Cancel',
             cancelOnStateChange: true,
             container: $body,
-            updateWithReturnKey: false
+            updateWithReturnKey: false,
+            filterText: ''
           }, opts);
 
           //if no custom theme was configured, get theme of containers bar-header
@@ -580,8 +582,12 @@ angular.module('jett.ionic.filter.bar', ['ionic']);
 
               $timeout(function () {
                 filterWrapperEl.addClass('filter-bar-in');
-                scope.focusInput();
-                scope.showBackdrop();
+                if (scope.filterText) {
+                  scope.hideBackdrop();
+                } else {
+                  scope.focusInput();
+                  scope.showBackdrop();
+                }
                 (done || angular.noop)();
               }, 20, false);
             });
@@ -601,6 +607,7 @@ angular.module('jett.ionic.filter.bar', ['ionic']);
             scope.update(filterText);
           };
           scope.showFilterBar(scope.done);
+
 
           // Expose the scope on $ionFilterBar's return value for the sake of testing it.
           scope.cancelFilterBar.$scope = scope;

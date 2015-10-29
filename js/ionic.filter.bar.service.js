@@ -68,7 +68,7 @@
           opts = opts || {};
 
           var scope = $rootScope.$new(true);
-          var backdropShown = false;
+          var backdropShown = true;
           var isKeyboardShown = false;
 
           //if container option is set, determine the container element by querying for the container class
@@ -93,7 +93,8 @@
             cancelText: 'Cancel',
             cancelOnStateChange: true,
             container: $body,
-            updateWithReturnKey: false
+            updateWithReturnKey: false,
+            filterText: ''
           }, opts);
 
           //if no custom theme was configured, get theme of containers bar-header
@@ -266,8 +267,12 @@
 
               $timeout(function () {
                 filterWrapperEl.addClass('filter-bar-in');
-                scope.focusInput();
-                scope.showBackdrop();
+                if (scope.filterText) {
+                  scope.hideBackdrop();
+                } else {
+                  scope.focusInput();
+                  scope.showBackdrop();
+                }
                 (done || angular.noop)();
               }, 20, false);
             });
