@@ -31,7 +31,7 @@
                   '<input type="search" class="filter-bar-search" ng-model="filterText" placeholder="{{::config.placeholder}}"/>' +
                   '<button style="display:none;" class="filter-bar-clear button button-icon icon {{::config.clear}}"></button>' +
                 '</form>' +
-                '<button class="filter-bar-cancel button button-clear" ng-bind-html="::cancelText"></button>' +
+                '<button class="filter-bar-cancel button button-clear {{::cancelButtonClass}}" ng-bind-html="::cancelText"></button>' +
               '</div>' +
             '</div>';
         }

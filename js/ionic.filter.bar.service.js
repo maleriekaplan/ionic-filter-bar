@@ -94,7 +94,8 @@
             cancelOnStateChange: true,
             container: $body,
             updateWithReturnKey: false,
-            filterText: ''
+            filterText: '',
+            cancelButtonClass: ''
           }, opts);
 
           //if no custom theme was configured, get theme of containers bar-header
